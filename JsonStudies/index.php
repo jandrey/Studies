@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<head>
 <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Notable" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Hind+Siliguri|Notable" rel="stylesheet">
@@ -15,32 +16,37 @@ body{
 
 	}
 </style>
-
-<head>
-    <title>ESTUDOS JSON & AJAX</title>
+    <title>ESTUDOS JSON & AJAX with Jquery API</title>
 </head>
 <body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	$.ajaxSetup({
+		 beforeSend: function() {
+		    $('.mybox ').append("LOADING.....");
+		 }
+		}); 
+		$("button").click(function(){
+			var nameData = $("input").val();
+			$.post('script.php', "name="+nameData ).done(function(data) {
+		    	// Log the response to the console
+		    	$(".mybox").append(data);
+			});
+			
+		});
+		
+	});
+
+</script>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12 main">
-            <h1>Json & Ajax Studies</h1>
-			 <?php
-				//String no formato JSON
-				$string_json = file_get_contents('text.json');
-				 
-				//Decodificação pela função json_decode
-				$objeto_php = json_decode($string_json);
-				 
-				//Manipulando o objeto decodificado
-				echo "O nome é: ".$objeto_php->Nome;
-				echo "<br />";
-				echo "Sua idade é: ".$objeto_php->Idade;
-			?>
-			<form action="">
-				Name: <input type="text" name="name"><br>
-				Idade: <input type="text" name="num"><br>
-				<input type="submit" value="Submit">
-			</form>
+    	<div class="col-md-12 mybox">
+    		Search Character LEVEL
+        	<input type="text">
+        	<button>Click Here</button>
         </div>
     </div>
 </div>
